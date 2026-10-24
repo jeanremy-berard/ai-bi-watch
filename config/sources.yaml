@@ -186,6 +186,7 @@ sources:
     url: https://benn.substack.com/feed
     group: bi_practice
     tier: 2
+    enabled: false   # *.substack.com returns 403 to GitHub runners (IP-level, UA retry didn't help)
   - name: Analytics Engineering Roundup
     url: https://roundup.getdbt.com/feed
     group: bi_practice
@@ -198,10 +199,12 @@ sources:
     url: https://joereis.substack.com/feed
     group: bi_practice
     tier: 2
+    enabled: false   # *.substack.com returns 403 to GitHub runners (IP-level, UA retry didn't help)
   - name: Data Products (Chad Sanderson)
     url: https://dataproducts.substack.com/feed
     group: bi_practice
     tier: 2
+    enabled: false   # *.substack.com returns 403 to GitHub runners (IP-level, UA retry didn't help)
   - name: Locally Optimistic
     url: https://locallyoptimistic.com/index.xml
     group: bi_practice
