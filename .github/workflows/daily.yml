@@ -1,0 +1,45 @@
+name: Daily ingest
+
+on:
+  schedule:
+    # Off the top of the hour: GitHub delays runs scheduled at :00 the most.
+    - cron: "13 5 * * *"
+      timezone: "Europe/Paris"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Fetch and triage
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m watch.ingest
+
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "ai-bi-watch bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet && exit 0
+          git commit -m "data: daily ingest $(date -u +%F)"
+          git pull --rebase
+          git push

@@ -1,0 +1,206 @@
+# Curated source list. This list IS the first quality filter: anything not in here
+# never reaches the classifier.
+#
+# Fields
+#   name      display name (unique)
+#   url       feed URL (RSS/Atom), or the API URL for type hf_papers
+#   type      rss (default) | hf_papers
+#   group     hint for the classifier; the final category is decided per item
+#   tier      1 = primary/official, 2 = trusted individual or analysis, 3 = aggregator
+#   include   optional list of regexes (case-insensitive) on title+summary;
+#             items matching none are skipped before any API call (cheap prefilter
+#             for broad or noisy feeds)
+#   max_items optional cap per run (default: settings.max_items_per_source)
+#   enabled   false to park a source without deleting it
+#
+# "verified" comments = feed confirmed reachable when this list was written.
+# Everything else is checked by the "Check feeds" workflow, which writes
+# data/feed_status.md. Dead feeds show up there and in the digest footer.
+
+settings:
+  lookback_days: 3          # ignore entries published before this (first run uses bootstrap_days)
+  bootstrap_days: 7
+  max_items_per_source: 15
+  fulltext_min_chars: 1500  # fetch the article page when the feed gives less text than this
+  fulltext_max_chars: 8000
+  classify_model: claude-haiku-5-5
+  digest_model: claude-sonnet-5-5
+  practice_window_days: 28  # BI practice pieces stay eligible for the digest this long
+
+sources:
+  # ---------------------------------------------------------------- AI: labs & platforms
+  # Anthropic has no official RSS; these are generated daily by github.com/Olshansk/rss-feeds
+  - name: Anthropic News            # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml
+    group: ai_releases
+    tier: 1
+  - name: Claude Blog               # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_claude.xml
+    group: ai_releases
+    tier: 1
+  - name: Anthropic Engineering     # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_engineering.xml
+    group: ai_engineering
+    tier: 1
+  - name: Anthropic Research        # verified; lots of alignment/policy, the classifier filters
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_research.xml
+    group: ai_research
+    tier: 1
+  - name: OpenAI News               # verified
+    url: https://openai.com/news/rss.xml
+    group: ai_releases
+    tier: 1
+  - name: OpenAI Developer Blog     # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_openai_developer.xml
+    group: ai_engineering
+    tier: 1
+  - name: Google DeepMind           # verified
+    url: https://deepmind.google/blog/rss.xml
+    group: ai_releases
+    tier: 1
+  - name: Google AI (The Keyword)   # verified
+    url: https://blog.google/innovation-and-ai/technology/ai/rss/
+    group: ai_releases
+    tier: 1
+  - name: Meta AI                   # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_meta_ai.xml
+    group: ai_releases
+    tier: 1
+  - name: Mistral AI                # verified
+    url: https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_mistral.xml
+    group: ai_releases
+    tier: 1
+  - name: Hugging Face Blog         # verified
+    url: https://huggingface.co/blog/feed.xml
+    group: ai_engineering
+    tier: 1
+  - name: Azure Blog (AI only)
+    url: https://azure.microsoft.com/en-us/blog/feed/
+    group: ai_releases
+    tier: 1
+    include: ['\bAI\b', 'Foundry', 'Copilot', 'agent', 'OpenAI', 'model', 'LLM']
+  - name: GitHub Blog (AI & ML)
+    url: https://github.blog/ai-and-ml/feed/
+    group: ai_engineering
+    tier: 1
+
+  # ---------------------------------------------------------------- AI: tooling & engineering
+  - name: Simon Willison            # long-form entries only, not the link blog
+    url: https://simonwillison.net/atom/entries/
+    group: ai_engineering
+    tier: 2
+  - name: Latent Space
+    url: https://www.latent.space/feed
+    group: ai_engineering
+    tier: 2
+  - name: LangChain Blog
+    url: https://blog.langchain.com/rss/
+    group: ai_engineering
+    tier: 1
+  - name: Hacker News (front page, 250+ points)
+    url: https://hnrss.org/frontpage?points=250
+    group: ai_engineering
+    tier: 3
+    include: ['\bAI\b', 'LLM', 'GPT', 'Claude', 'Gemini', 'Llama', 'Mistral', 'OpenAI',
+              'Anthropic', 'agent', 'model', 'inference', 'transformer', 'MCP',
+              'Power BI', 'Fabric', 'Databricks', 'Snowflake', 'dbt', 'DuckDB',
+              'semantic layer', 'data warehouse', 'lakehouse', 'analytics']
+
+  # ---------------------------------------------------------------- AI: research
+  - name: Hugging Face Daily Papers
+    url: https://huggingface.co/api/daily_papers
+    type: hf_papers
+    group: ai_research
+    tier: 3
+    min_upvotes: 50       # community traction gate: most papers never reach this
+    max_items: 4
+  - name: Google Research           # verified
+    url: https://research.google/blog/rss/
+    group: ai_research
+    tier: 1
+  - name: Sebastian Raschka (Ahead of AI)
+    url: https://magazine.sebastianraschka.com/feed
+    group: ai_research
+    tier: 2
+  - name: Interconnects (Nathan Lambert)
+    url: https://www.interconnects.ai/feed
+    group: ai_research
+    tier: 2
+  - name: Lilian Weng
+    url: https://lilianweng.github.io/index.xml
+    group: ai_research
+    tier: 2
+
+  # ---------------------------------------------------------------- BI: Microsoft
+  - name: Microsoft Fabric Blog     # Power BI announcements now live here too
+    url: https://blog.fabric.microsoft.com/en-us/blog/feed/
+    group: bi_microsoft
+    tier: 1
+  - name: Power BI Blog             # may redirect to the Fabric blog; duplicates are removed by URL
+    url: https://powerbi.microsoft.com/en-us/blog/feed/
+    group: bi_microsoft
+    tier: 1
+  - name: Chris Webb's BI Blog
+    url: https://blog.crossjoin.co.uk/feed/
+    group: bi_microsoft
+    tier: 2
+  - name: SQLBI
+    url: https://www.sqlbi.com/feed/
+    group: bi_practice
+    tier: 2
+  - name: Tabular Editor Blog
+    url: https://tabulareditor.com/blog/rss.xml
+    group: bi_microsoft
+    tier: 2
+
+  # ---------------------------------------------------------------- BI: market
+  - name: Databricks Blog
+    url: https://www.databricks.com/feed
+    group: bi_market
+    tier: 1
+  - name: Snowflake Blog
+    url: https://www.snowflake.com/feed/
+    group: bi_market
+    tier: 1
+  - name: dbt Labs Blog
+    url: https://www.getdbt.com/blog/rss.xml
+    group: bi_market
+    tier: 1
+  - name: Google Cloud (Data Analytics)
+    url: https://cloudblog.withgoogle.com/products/data-analytics/rss/
+    group: bi_market
+    tier: 1
+  - name: Tableau Blog
+    url: https://www.tableau.com/blog/rss.xml
+    group: bi_market
+    tier: 1
+  - name: DuckDB
+    url: https://duckdb.org/feed.xml
+    group: bi_market
+    tier: 1
+
+  # ---------------------------------------------------------------- BI: practice
+  - name: Benn Stancil
+    url: https://benn.substack.com/feed
+    group: bi_practice
+    tier: 2
+  - name: Analytics Engineering Roundup
+    url: https://roundup.getdbt.com/feed
+    group: bi_practice
+    tier: 2
+  - name: dbt Developer Blog
+    url: https://docs.getdbt.com/blog/rss.xml
+    group: bi_practice
+    tier: 2
+  - name: Joe Reis
+    url: https://joereis.substack.com/feed
+    group: bi_practice
+    tier: 2
+  - name: Data Products (Chad Sanderson)
+    url: https://dataproducts.substack.com/feed
+    group: bi_practice
+    tier: 2
+  - name: Locally Optimistic
+    url: https://locallyoptimistic.com/index.xml
+    group: bi_practice
+    tier: 2
