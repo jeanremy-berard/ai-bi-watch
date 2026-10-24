@@ -97,6 +97,7 @@ sources:
     url: https://blog.langchain.com/rss/
     group: ai_engineering
     tier: 1
+    enabled: false   # feed URL returns HTML (moved?)
   - name: Hacker News (front page, 250+ points)
     url: https://hnrss.org/frontpage?points=250
     group: ai_engineering
@@ -174,6 +175,7 @@ sources:
     url: https://www.tableau.com/blog/rss.xml
     group: bi_market
     tier: 1
+    enabled: false   # no public RSS found
   - name: DuckDB
     url: https://duckdb.org/feed.xml
     group: bi_market
@@ -204,3 +206,4 @@ sources:
     url: https://locallyoptimistic.com/index.xml
     group: bi_practice
     tier: 2
+    enabled: false   # feed URL 404

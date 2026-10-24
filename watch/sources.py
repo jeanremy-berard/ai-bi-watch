@@ -62,8 +62,17 @@ def _entry_text(e) -> str:
     return clean_html(" ".join(parts))
 
 
+BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+
+
 def _get(url: str) -> requests.Response:
     r = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT)
+    if r.status_code == 403:
+        # some hosts (e.g. *.substack.com) refuse non-browser user agents
+        r = requests.get(url, headers={"User-Agent": BROWSER_UA,
+                                       "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8"},
+                         timeout=TIMEOUT)
     r.raise_for_status()
     return r
 
