@@ -1,15 +1,12 @@
 # Feed status
 
-Checked 2026-10-24 12:53 UTC. 33/39 sources reachable.
+Checked 2026-10-24 12:54 UTC. 33/36 sources reachable.
 
 | | Source | Status | Entries | Newest entry |
 |---|---|---|---|---|
 | ❌ | Benn Stancil | HTTPError: 403 Client Error: Forbidden for url: https://benn.substack.com/feed | | |
 | ❌ | Data Products (Chad Sanderson) | HTTPError: 403 Client Error: Forbidden for url: https://dataproducts.substack.com/feed | | |
 | ❌ | Joe Reis | HTTPError: 403 Client Error: Forbidden for url: https://joereis.substack.com/feed | | |
-| ❌ | LangChain Blog | no entries (parse error: <unknown>:2:2699: not well-formed (invalid token)) | | |
-| ❌ | Locally Optimistic | HTTPError: 404 Client Error: Not Found for url: https://locallyoptimistic.com/index.xml | | |
-| ❌ | Tableau Blog | HTTPError: 404 Client Error: Not Found for url: https://www.tableau.com/blog/rss.xml | | |
 | ✅ | Analytics Engineering Roundup | ok | 20 | 2026-10-23 |
 | ✅ | Anthropic Engineering | ok | 27 | 2026-10-13 |
 | ✅ | Anthropic News | ok | 282 | 2026-10-22 |
