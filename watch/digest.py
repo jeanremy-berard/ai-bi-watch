@@ -18,8 +18,8 @@ from datetime import timedelta
 
 import anthropic
 
-from .common import (DIGESTS_DIR, add_featured, load_profile, load_sources, log, now_utc,
-                     read_featured, read_items, setup_logging)
+from .common import (DIGESTS_DIR, add_featured, exclusion_rule, load_profile, load_sources,
+                     log, now_utc, read_featured, read_items, setup_logging)
 from .feedcheck import dead_sources
 
 SECTION_ORDER = [
@@ -99,7 +99,7 @@ def model_input(kept: list[dict], practice: list[dict]) -> str:
 
 def footer(week: list[dict], kept: list[dict], practice: list[dict], dead: list[str]) -> str:
     dropped = [r for r in week if r["keep"] != "1"]
-    reasons = Counter((r["exclusion_reason"] or "unspecified").lower() for r in dropped)
+    reasons = Counter(exclusion_rule(r["exclusion_reason"]) for r in dropped)
     borderline = sorted((r for r in dropped if int(r["significance"] or 0) >= 3),
                         key=lambda r: -int(r["significance"]))[:15]
     out = ["\n---\n", "## Under the hood\n",

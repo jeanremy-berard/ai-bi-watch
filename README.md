@@ -26,9 +26,15 @@ config/sources.yaml ──► daily ingest (Haiku: keep/drop, category, signific
 4. **First run**: *Actions → Daily ingest → Run workflow*. The first run looks back 7 days,
    later runs 3 days.
 5. **First digest**: *Actions → Weekly digest → Run workflow* whenever you want one before Saturday.
+6. **Site**: *Settings → Pages → Build and deployment → Source: GitHub Actions*, then
+   *Actions → Publish site → Run workflow* once.
 
 ## Reading
 
+- **Site**: https://jeanremy-berard.github.io/ai-bi-watch/ with two views: the weekly digest,
+  and an explorer to filter every triaged item by period, significance, category, source and
+  kept/dropped. Rebuilt after every pipeline run. Ratings (useful / not useful) stay in your browser
+  and can be exported as JSON.
 - [`digests/latest.md`](digests/latest.md), or the run's job summary in the Actions tab.
 - Better: a Claude project with this repo connected through the GitHub connector, so you can
   ask questions about the digest and the underlying items.
@@ -52,4 +58,5 @@ pip install -r requirements.txt
 python -m watch.feedcheck            # no key needed
 python -m watch.ingest --dry-run     # no API calls, keeps everything
 python -m watch.digest --dry-run     # writes the model input instead of a digest
+python -m watch.site && python -m http.server -d _site   # explorer on localhost:8000
 ```

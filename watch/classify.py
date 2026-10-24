@@ -6,7 +6,7 @@ import json
 
 import anthropic
 
-from .common import CATEGORIES, log
+from .common import CATEGORIES, EXCLUSION_RULES, log
 
 SCHEMA = {
     "type": "object",
@@ -17,10 +17,11 @@ SCHEMA = {
         "story_key": {"type": "string"},
         "summary": {"type": "string"},
         "why_it_matters": {"type": "string"},
+        "exclusion_rule": {"type": "string", "enum": EXCLUSION_RULES},
         "exclusion_reason": {"type": "string"},
     },
     "required": ["keep", "category", "significance", "story_key", "summary",
-                 "why_it_matters", "exclusion_reason"],
+                 "why_it_matters", "exclusion_rule", "exclusion_reason"],
     "additionalProperties": False,
 }
 
@@ -41,8 +42,9 @@ Return:
   and on what timescale; how solid it looks. Empty string if dropped.
 - why_it_matters: one sentence for this reader specifically (what it changes for
   someone running Fabric/Power BI and building with LLMs). Empty string if dropped.
-- exclusion_reason: if dropped, a few words naming the rule (e.g. "funding round",
-  "minor feature", "societal debate", "off-topic"). Empty string if kept.
+- exclusion_rule: if dropped, the Drop rule that applies ("kept" if kept; "low significance"
+  if it passes the rules but scores below 3).
+- exclusion_reason: if dropped, a few words of detail. Empty string if kept.
 
 Write in English. Do not invent facts that are not in the text; if the text is only a
 teaser, say less rather than guess.
@@ -76,7 +78,15 @@ def classify(client: anthropic.Anthropic, model: str, profile: str, entry, text:
     out["significance"] = max(1, min(5, int(out.get("significance", 1))))
     if out["keep"] and out["significance"] < 3:
         out["keep"] = False
-        out["exclusion_reason"] = out.get("exclusion_reason") or "below significance threshold"
+        out["exclusion_rule"] = "low significance"
+    # stored as "<rule>: <detail>" so the CSV schema stays unchanged
+    if out["keep"]:
+        out["exclusion_reason"] = ""
+    else:
+        rule = out.get("exclusion_rule") or "other"
+        rule = "other" if rule == "kept" else rule
+        detail = (out.get("exclusion_reason") or "").strip()
+        out["exclusion_reason"] = f"{rule}: {detail}" if detail else rule
     return out
 
 

@@ -33,6 +33,47 @@ CATEGORIES = [
     "none",
 ]
 
+EXCLUSION_RULES = [
+    "kept",
+    "funding or business news",
+    "minor feature",
+    "marketing or case study",
+    "tutorial or listicle",
+    "societal debate or opinion",
+    "regulation without direct impact",
+    "event or webinar",
+    "safety research",
+    "off-topic",
+    "low significance",
+    "other",
+]
+
+_LEGACY_RULES = [  # free-text reasons written before exclusion_rule existed
+    ("funding or business news", ("funding", "ipo", "valuation", "acquisition", "hiring", "executive", "governance", "philanthrop")),
+    ("marketing or case study", ("marketing", "case study", "customer", "partner", "promo")),
+    ("minor feature", ("minor", "small", "ui tweak", "incremental")),
+    ("tutorial or listicle", ("tutorial", "how-to", "listicle", "beginner")),
+    ("societal debate or opinion", ("societal", "debate", "opinion", "ethic", "politic", "philosoph")),
+    ("regulation without direct impact", ("regulat", "policy", "legislat")),
+    ("event or webinar", ("event", "webinar", "conference", "recap")),
+    ("safety research", ("safety", "alignment")),
+    ("off-topic", ("off-topic", "off topic", "unrelated", "not relevant")),
+    ("low significance", ("significance", "threshold", "marginal")),
+]
+
+
+def exclusion_rule(reason: str) -> str:
+    """Map a stored exclusion_reason to one of EXCLUSION_RULES."""
+    head = (reason or "").split(":", 1)[0].strip().lower()
+    if head in EXCLUSION_RULES:
+        return head
+    text = (reason or "").lower()
+    for rule, keys in _LEGACY_RULES:
+        if any(k in text for k in keys):
+            return rule
+    return "other"
+
+
 ITEM_FIELDS = [
     "id",
     "fetched_at",
