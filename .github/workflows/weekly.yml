@@ -2,9 +2,11 @@ name: Weekly digest
 
 on:
   schedule:
-    # Saturday 06:41 Paris time, so the digest is ready around 07:00
-    # (GitHub often starts scheduled runs a few minutes late).
-    - cron: "41 6 * * 6"
+    # Friday 21:41 Paris time. GitHub fires scheduled workflows late on this repo
+    # (5-7 hours observed in October 2026), so a Friday evening slot is what
+    # gets the digest ready before Saturday 07:00. The digest is still
+    # labelled with Saturday's date (see watch/digest.py: week_ending).
+    - cron: "41 21 * * 5"
       timezone: "Europe/Paris"
   workflow_dispatch:
     inputs:

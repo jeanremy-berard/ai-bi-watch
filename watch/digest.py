@@ -15,6 +15,7 @@ import re
 import sys
 from collections import Counter
 from datetime import timedelta
+from zoneinfo import ZoneInfo
 
 import anthropic
 
@@ -129,7 +130,7 @@ def main(argv: list[str] | None = None) -> int:
 
     settings, _ = load_sources()
     week, kept, practice = collect(args.days, int(settings.get("practice_window_days", 28)))
-    today = now_utc().date().isoformat()
+    today = week_ending()
     DIGESTS_DIR.mkdir(parents=True, exist_ok=True)
     out_path = DIGESTS_DIR / f"{today}.md"
     log.info("%d items this week, %d kept, %d practice candidates", len(week), len(kept), len(practice))
@@ -165,6 +166,16 @@ def main(argv: list[str] | None = None) -> int:
         add_featured([r["id"] for r in practice if r["url"] in body], today)
     log.info("wrote %s", out_path)
     return 0
+
+
+def week_ending() -> str:
+    """Label digests by the Saturday they are meant for (Paris time).
+
+    The scheduled run starts on Friday evening because GitHub fires scheduled
+    workflows hours late; a run on Friday must still be labelled Saturday.
+    """
+    local = now_utc().astimezone(ZoneInfo("Europe/Paris")).date()
+    return (local + timedelta(days=(5 - local.weekday()) % 7)).isoformat()
 
 
 def check_links(body: str, items: list[dict]) -> None:
