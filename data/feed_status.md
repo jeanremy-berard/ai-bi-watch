@@ -1,6 +1,6 @@
 # Feed status
 
-Checked 2026-11-01 11:13 UTC. 33/33 sources reachable.
+Checked 2026-11-02 12:18 UTC. 33/33 sources reachable.
 
 | | Source | Status | Entries | Newest entry |
 |---|---|---|---|---|
@@ -16,9 +16,9 @@ Checked 2026-11-01 11:13 UTC. 33/33 sources reachable.
 | ✅ | GitHub Blog (AI & ML) | ok | 10 | 2026-10-20 |
 | ✅ | Google AI (The Keyword) | ok | 20 | 2026-10-26 |
 | ✅ | Google Cloud (Data Analytics) | ok | 20 | 2026-10-29 |
-| ✅ | Google DeepMind | ok | 100 | 2026-10-28 |
+| ✅ | Google DeepMind | ok | 100 | 2026-10-30 |
 | ✅ | Google Research | ok | 100 | 2026-10-27 |
-| ✅ | Hacker News (front page, 250+ points) | ok | 7 | 2026-10-31 |
+| ✅ | Hacker News (front page, 250+ points) | ok | 9 | 2026-11-02 |
 | ✅ | Hugging Face Blog | ok | 894 | 2026-10-30 |
 | ✅ | Hugging Face Daily Papers | ok | 50 | 2026-10-28 |
 | ✅ | Interconnects (Nathan Lambert) | ok | 20 | 2026-10-30 |
