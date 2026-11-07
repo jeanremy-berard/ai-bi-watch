@@ -1,131 +1,123 @@
-# AI & BI Watch: week ending 2026-10-31
+# AI & BI Watch: week ending 2026-11-07
 
 ## This week in five lines
-- Claude Code for VS Code versions 2.1.312 and 2.1.313, distributed via the Cursor Marketplace, carried a backdoor. Check any Cursor installs now.
-- OpenAI and Anthropic API price cuts since June, mostly on cache reads, lower agentic coding costs by an estimated 40-75%.
-- Gemini 4 Carbon, Mistral Large 4 (open weights) and Kimi K3.1 Pro (weights due Nov 4) all landed, but only Mistral's weights are downloadable today.
-- Fabric data agents get agentic NL2SQL/DAX generation, rolling out to the standard runtime from Nov 2. Re-test existing agents.
-- The Fabric data agent custom tool in Foundry is retired on Nov 6. Move to the Fabric IQ (OneLake Catalog) tool.
+- The official Claude Code VS Code extension was backdoored on the Cursor Marketplace (v2.1.312 and v2.1.313). Check your environments.
+- Fabric took several agent-oriented steps: a hosted OneLake MCP server, Iceberg writes to OneLake tables, and OneLake as native storage for Azure Databricks.
+- M365 Copilot's integration with Power BI semantic models is now GA, and it avoids the old side-pane Copilot cost model.
+- Anthropic put message threads in public beta on the Claude Platform. They cut time to first token on long agent sessions by about 35% at the median.
+- Google shipped Gemini 4 Argon as a frontier model on the Gemini API and Google Cloud, and Moonshot open-sourced Kimi K3.1 Pro.
 
 ## Access & licensing
-### LLM API prices have fallen sharply since June, driven by cache-read cuts
-One author tracked OpenAI and Anthropic price changes between June and September. Anthropic made Sonnet 5's launch price permanent, halved Opus 5.5 relative to Opus 5, and cut cache-read costs on Fable 5.1 by 75%. OpenAI cut GPT-5.6 Luna by 80% and halved cache-read pricing on GPT-6.1 Sol. The author argues cache reads dominate agentic coding spend, so total costs drop roughly 40-75%, and attributes this to competition from cheaper open-weight models. This is one analyst's tally, not an official source.
-**Why it matters:** Cheaper cache reads change which agent workloads are affordable on Claude and what budgets you should assume.
-●●●●○ · [minimaxir](https://minimaxir.com/2026/10/cheap-llms)
-
-### Claude Platform is generally available on Google Cloud, Anthropic-managed
-The full Claude Platform is now available on Google Cloud with new features shipping the same day as on the native platform. It uses Google Cloud IAM credentials, bills on a single GCP invoice and draws down existing GCP commitments. It is on US and Global endpoints only, and Google's separate managed offering, where Google is the data processor, remains available. Check existing discounts with account executives before switching.
-**Why it matters:** If any of your Claude usage runs through GCP, you can consolidate access and billing and get day-one features.
-●●●○○ · [Claude Blog](https://claude.com/resources/articles/claude-models-on-google-cloud-anthropic-managed)
+### Claude Code VS Code extension backdoored on the Cursor Marketplace
+Phorion reports that the official Claude Code extension distributed through the Cursor Marketplace was compromised. A later Cursor notice names versions 2.1.312 and 2.1.313 as affected. The payload adds an attacker SSH key, tries to enable Remote Login and a reverse SSH tunnel, and includes persistence for macOS, Linux and Windows. Cursor has removed the affected versions, and Phorion advises reviewing environments and engaging incident response if either version is found.
+**Why it matters:** The extension runs with full local user permissions, so any team using Claude Code through Cursor should check for these versions now.
+●●●●● · [Phorion](https://phorion.io/blog/offical-claude-code-vsx-compromise)
 
 ## AI: releases & platforms
-### Gemini 4 Carbon announced, but access is restricted and pricing is unclear
-Google says Gemini 4 Carbon ranks first on the Artificial Analysis Intelligence Index (59), with gains in coding, long-horizon agentic tasks and cybersecurity. Initial access is limited to cyber defenders and trusted partners through the Fairwind Program, with broader availability promised but undated. Google quotes $2/$10 per million tokens, while Artificial Analysis lists $4/$20 with an open-ended 50% launch discount. The benchmark figures are Google's own.
-**Why it matters:** It is a frontier candidate for agentic coding evaluations, but with no developer API yet there is nothing to plan around.
-●●●○○ · [Google DeepMind](https://deepmind.google/blog/gemini-4-carbon-our-next-frontier-model) · [Latent Space](https://latent.space/p/ainews-gemini-4-carbon) · [Google blog](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon) · covered by 3 sources
+### Gemini 4 Argon is available; Carbon is still in restricted testing
+Google rolled out Gemini 4 Argon, a frontier reasoning model aimed at complex coding, financial analysis and legal workflows. It is available in Google AI Studio, the Gemini API, Google Cloud, Search and the Gemini app. Two weeks later Google announced Gemini 4 Carbon, positioned for long-horizon engineering and cybersecurity. Carbon is so far only in pre-release testing with the U.S. government and selected cyber defenders. The source is Google's own monthly roundup.
+**Why it matters:** Argon is a new model option to evaluate next to Claude for LLM-based builds, while Carbon is not yet usable.
+●●●●○ · [Google (The Keyword)](https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-october-2026)
 
-### Mistral Large 4 ("Le Chonk") ships open weights with a 1M-token context
-Mistral released an open-weight multimodal mixture-of-experts model, about 1T parameters with 49B active, aimed at coding agents and cyber defense. It has day-0 support in transformers, vLLM and llama.cpp, and three selectable reasoning modes. Benchmarks are vendor-reported. The Mistral Ecosystem Open-Weight License is an MIT derivative that requires a separate commercial license for model-as-a-service businesses.
-**Why it matters:** It is a self-hostable coding-agent option, but it needs your own evals before it substitutes for Claude, and the license limits hosted offerings.
-●●●○○ · [Hugging Face](https://huggingface.co/blog/mistral-large4) · [Mistral AI](https://mistral.ai/news/mistral-large-4-oss) · [Latent Space](https://latent.space/p/ainews-building-aie-code-the-top-coding-agent-conference) · covered by 3 sources
+### Claude Platform: message threads in public beta
+With threads, agents send only the new messages and the previous response ID each turn instead of resending the whole conversation. Anthropic reports a median time-to-first-token drop of about 35% for 500k to 1M token requests in Claude Code, where the feature is on by default for most users. Token usage is unchanged because Claude still reads the full conversation, and a thread expires 5 minutes after its last request.
+**Why it matters:** Long-running Claude agents can cut latency without changing prompts, but you need to handle the 5-minute expiry and the cost stays the same.
+●●●●○ · [Claude Blog](https://claude.com/resources/articles/message-threads)
 
-### Kimi K3.1 Pro launches via API, weights promised for November 4
-Moonshot's K3.1 Pro is a 2.8T-parameter mixture-of-experts model (104B active) with a 1M-token context and a Highspeed variant claimed to be 2-3x faster. Artificial Analysis puts it fourth on its index, behind Opus 5.5, and Moonshot's own Terminal-Bench 4.0 score is close to Opus 5.5's. Weights are promised for Nov 4 and license terms are unknown.
-**Why it matters:** A near-frontier open-weight model could become an alternative for agent workloads, but at this size the API is the practical route.
-●●●○○ · [Latent Space](https://latent.space/p/ainews-kimi-31) · [Kimi](https://www.kimi.ai/blog/kimi-k3-1-pro) · covered by 2 sources
+### Kimi K3.1 Pro open weights
+Moonshot released the weights of Kimi K3.1 Pro on Hugging Face. It is an open-weight, natively multimodal agentic model in the 3T-parameter class with a 1M-token context window. It is post-trained from K3 with large-scale reinforcement learning and swaps full-attention layers for Gated DeepSeek Sparse Attention. Latent Space reports it is already hosted on Ollama Cloud and Databricks, and that it ranks first among open models on Agent Arena, one independent ranking. The other performance claims are vendor-reported.
+**Why it matters:** It is a self-hostable or cheaper-hosted alternative to evaluate against Claude for agentic coding and long-context work.
+●●●●○ · [Hugging Face](https://huggingface.co/moonshotai/Kimi-K3.1-Pro) · [Latent Space](https://latent.space/p/ainews-it-s-swapping-season) · covered by 2 sources
 
-### Claude Duet research preview: a proactive background agent
-Duet is a mobile and web agent that sends a morning brief, monitors connected apps and runs tasks in a background VM. It asks for approval before sending messages, making payments, signing or deleting. Anthropic's safety write-up describes an outgoing-message classifier, credentials kept away from the model and a one-time card for purchases, and admits the safeguards will sometimes miss. It is a waitlist preview on Pro and Max plans, not an API.
-**Why it matters:** The approval gating and credential-proxy design are a concrete reference for agents you build yourself.
-●●●○○ · [Claude Blog](https://claude.com/resources/articles/claude-duet) · [Claude Blog (safety)](https://claude.com/resources/articles/claude-duet-safety-privacy-and-security) · covered by 2 sources
+### Mistral Large 4 and an expanded Studio platform
+Mistral announced Large 4 ("Le Chonk"), an open model aimed at coding, defensive cybersecurity and document reasoning. It also expanded Studio with managed agents and apps, workflow triggers, enterprise context, observability and evaluations. Studio can run in the cloud, a customer VPC, on-premises or a mix. The performance claims are the vendor's own.
+**Why it matters:** It adds a self-hostable model and a platform for running agents with tracing and evals inside your own perimeter.
+●●●○○ · [Mistral AI](https://mistral.ai/news/build-with-studio)
 
 ## AI: tooling & engineering
-### Foundry Agent Service gets a managed Copilot harness (public preview)
-Microsoft runs the agent loop and sandbox. Developers supply skills, MCP and Foundry tools with configured approvals, and built-in subagents. Long-running resilience for hosted agents is now GA: Foundry restarts interrupted work, but your application must save checkpoints and avoid duplicate actions.
-**Why it matters:** It could replace much of the orchestration code you would otherwise write for agents on the Microsoft side, though it is still preview.
-●●●●○ · [Azure Blog](https://devblogs.microsoft.com/foundry/microsoft-copilot-harness-in-foundry)
+### Do agent skills earn their context cost?
+Two posts this week test this. dbt's proof-of-concept ran Claude 5.5 models on a dbt project with and without dbt skills. Across 22 runs, run-to-run variance exceeded any skills effect, and process (testing, deployment, review) separated good runs from bad ones more than dbt knowledge did. The author calls the results non-conclusive. Tabular Editor describes an ablation method: re-run the same prompt with and without the skill, or with two versions, over several runs. Their skill helped Claude Opus 5 follow the steps and surface issues it otherwise missed. They also argue skills should be hand-written, because an AI-rewritten version of theirs contained factual errors.
+**Why it matters:** Skills should be tested like code, and they are worth writing mainly for team-specific process rather than generic tool docs.
+●●●○○ · [dbt Developer Blog](https://docs.getdbt.com/blog/do-coding-agents-still-need-dbt-skills) · [Tabular Editor](https://tabulareditor.com/blog/how-to-test-ai-agent-skills) · covered by 2 sources
 
-### Claude Code extension on Cursor Marketplace was compromised
-Phorion reports that the official Claude Code for VS Code bundle on the Cursor Marketplace was backdoored in versions 2.1.312 and 2.1.313, per a later Cursor notice. The payload adds an attacker SSH key, tries to enable Remote Login and a reverse SSH tunnel, and includes persistence for macOS, Linux and Windows. Cursor has removed the versions. Phorion advises reviewing environments and engaging incident response if they are found.
-**Why it matters:** The extension runs with full local user permissions, so anyone using Claude Code through Cursor should check versions now.
-●●●●○ · [Phorion](https://phorion.io/blog/offical-claude-code-vsx-compromise)
+### Anthropic on the components of agent memory
+Anthropic defines agent memory as notes Claude retains between sessions, excluding weight changes, in-context learning and compaction. It proposes "dreaming", where an agent reflects offline on its logs to fix mistakes and write new notes. Evaluations on CL-Bench 1.0 and Pokémon Red suggest that memory recording validated rules and strategy works better than memory recording easily re-readable state.
+**Why it matters:** It gives concrete guidance on what an agent should persist and how to structure an offline consolidation step.
+●●●○○ · [Anthropic](https://www.anthropic.com/research/components-of-agent-memory)
 
-### Anthropic: prefer one agent loop with skills over many subagents
-Anthropic's Applied AI team reports that across several enterprise deployments, a single loop with skills, progressive tool disclosure and a clear system prompt often beat orchestrator-plus-specialist designs on quality, cost and latency. One customer saw roughly 2x faster runtime. Subagents still make sense for context bloat, parallel work with fresh context, and tool-selection or instruction conflicts. A migration kit is offered. This is vendor guidance, not an independent comparison.
-**Why it matters:** It gives you a concrete heuristic for when to split a Claude agent and when to fold it back.
-●●●○○ · [Claude Blog](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)
-
-### Agent Skills standard donated to the Agentic AI Foundation
-Anthropic is donating the SKILL.md-based Agent Skills standard to the Linux Foundation's Agentic AI Foundation. It says more than 70 agent platforms, including ChatGPT, Cursor, GitHub Copilot and VS Code, have integrated it. Maintainers will come from several companies, with versioned releases and a proposal process planned.
-**Why it matters:** Skills you write once can travel across agent platforms, which makes a shared skills library a lower-risk investment.
-●●●○○ · [Anthropic News](https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation)
+### Claude Platform traces now export natively to Databricks MLflow
+Claude Platform supports native OpenTelemetry export to Databricks MLflow for the Anthropic SDKs, the Messages API and Managed Agents. Model and tool calls appear as spans in Unity Catalog tables linked to an MLflow experiment. Databricks also describes trace analysis, Issues (beta), review queues and agent evaluation built on top.
+**Why it matters:** Claude agents can be debugged and evaluated with governed traces without custom instrumentation, if Databricks is in your stack.
+●●●○○ · [Databricks Blog](https://www.databricks.com/blog/claude-platform-now-supports-native-opentelemetry-observability-databricks-mlflow)
 
 ## BI: Microsoft Fabric & Power BI
-### Fabric data agents: agentic NL2SQL and DAX generation reaches GA
-Before writing SQL or DAX, the agent now explores the schema, tests joins and looks up real filter values, and creators can inspect each step. Creators can add schema descriptions and Markdown topics for SQL sources (preview runtime for now). Core improvements reach the standard runtime from Nov 2, completing by Nov 10. Accuracy and latency gains come from Microsoft's own benchmarks.
-**Why it matters:** Schema descriptions and topics let you encode business definitions and filter-value mappings, so re-test existing agents after the rollout.
-●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Advanced-NL2SQL-and-advanced-DAX-generation-in-Fabric-data/ba-p/5374654)
+### OneLake gets a hosted MCP server and an endpoint discovery API (preview)
+Microsoft added a remotely hosted OneLake MCP server (preview), so agents can explore data without a local install. It also added MCP tools for shortcuts and OneLake security in the Fabric Core MCP server, and an endpoint discovery API (preview) that tells agents which Fabric engines an item supports. The demos use GitHub Copilot on a mirrored database, shortcuts and a Spark analysis. No GA dates are given.
+**Why it matters:** This changes how I would wire agent access to Fabric data, with discovery and security handled at the platform level.
+●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/OneLake-The-file-system-for-agent-first-data-engineering/ba-p/5383035)
 
-### Fabric data agent custom tool in Foundry retires on Nov 6
-The custom-connection integration between Foundry agents and Fabric data agents is deprecated effective 11/6/2026. The replacement, the Fabric IQ (OneLake Catalog) tool in preview, lets you pick published data agents from a catalog, attach several to one Foundry agent and reach them via an MCP endpoint. The post includes portal and SDK/REST migration steps.
-**Why it matters:** Any Foundry agent using Fabric data agents as a custom tool breaks after the deadline unless migrated.
-●●●○○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Retiring-the-Fabric-data-agent-custom-tool-in-Microsoft-Foundry/ba-p/5374418)
+### M365 Copilot and Power BI semantic models: integration is GA
+Chris Webb, a Microsoft employee, argues that organisations with Power BI and M365 Copilot should start their chat-with-data work here. The integration replaces the side-pane approach, reuses existing semantic model work (synonyms, AI instructions) and can combine Power BI data with Work IQ context. Querying needs an M365 Business Premium licence plus capacity CUs for DAX queries, and Cowork credits may apply for complex tasks.
+**Why it matters:** It is a GA path to natural-language access over existing semantic models, with a different cost model from the older Copilot setup.
+●●●●○ · [Chris Webb's BI Blog](https://blog.crossjoin.co.uk/2026/11/01/microsoft-365-copilot-and-power-bi-the-easiest-way-to-chat-with-your-data)
 
-### Project Osmos: an autonomous data engineering agent in Fabric
-Following Microsoft's January acquisition of Osmos, a multi-agent orchestrator investigates data, writes PySpark, runs it through the Livy API, validates results and pauses when blocked. Work runs as persistent tasks on Fabric capacity under the user's permissions, and can be started from GitHub Copilot CLI, Claude Code or Codex via the Skills for Fabric plug-in. The visible text does not state the availability stage. A separate FNTK preview lets coding agents read, edit and run cells in live Fabric notebooks.
-**Why it matters:** It moves agent help from generating code to persistent, validated pipeline work, which consumes capacity and needs deliberate guardrails and review.
-●●●○○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Introducing-the-data-engineering-agent-for-Fabric-Project-Osmos/ba-p/5377944) · [Fabric Blog (FNTK)](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Connect-coding-agents-to-Fabric-notebooks-with-FNTK-Preview/ba-p/5375986)
+### OneLake table APIs: Iceberg write operations and a table metadata API (preview)
+The OneLake table endpoint now supports Iceberg REST Catalog write operations. Clients such as PyIceberg, Snowflake and DuckDB can create native Iceberg tables, commit snapshots and get short-lived storage credentials. Commits use optimistic concurrency checks. A new metadata API in preview reads and writes descriptions and key-value tags on tables and columns, including through shortcuts.
+**Why it matters:** External engines can land results directly in OneLake as Iceberg, and tables can carry business descriptions that agents and semantic models can use.
+●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/OneLake-table-APIs-Now-with-Iceberg-writes-plus-richer-table/ba-p/5391262)
 
-### Fabric Data Warehouse can call Python User Data Functions from T-SQL (preview)
-T-SQL statements can invoke Python functions hosted in Fabric User Data Functions. That Python can send email or Teams messages, read Key Vault secrets and variable libraries, read OneLake data and call APIs. The example maps an IPv6-prefix function to a T-SQL external function used in an UPDATE.
-**Why it matters:** Row-level enrichment, masking or API calls no longer need a separate app or pipeline, so it is worth testing on warehouse workloads.
-●●●○○ · [Power BI Blog](https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/Fabric-Data-Warehouse-integration-with-Fabric-User-Data/ba-p/5375137)
+### OneLake as native storage for Azure Databricks is GA
+OneLake external-location support for Azure Databricks Unity Catalog is generally available, with OneLake Security on by default for Azure Databricks Storage items. Managed tables, volumes, views, materialized views and streaming tables can live directly in OneLake, while Databricks keeps compute and Unity Catalog management. Access must be configured separately on both sides.
+**Why it matters:** You can keep one physical copy of Unity Catalog data in OneLake instead of syncing between platforms, but governance now spans both.
+●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Use-OneLake-as-native-storage-for-Azure-Databricks-Generally/ba-p/5377939)
 
-### SQLBI DAX LLM Benchmark v2: frontier models score 90-96%
-SQLBI and Maxim Anatsko re-ran the single-shot benchmark on Contoso-based models, covering writing and fixing DAX measures, queries and UDFs. Frontier models from three vendors released in August and September score 90-96%, and model generation matters more than vendor. Open-source models lag but follow the same trend. Agent iteration and skills are disabled, so this measures native ability, not real-world agent performance.
-**Why it matters:** Agent-drafted DAX looks dependable enough to adopt, with the author still advising that you read and validate the business logic.
-●●●○○ · [SQLBI](https://www.sqlbi.com/blog/marco/2026/10/27/dax-llm-benchmark-v2) · [SQLBI (trailer)](https://www.sqlbi.com/tv/dax-llm-benchmark-v2-0-trailer) · covered by 2 sources
+### IQ Share (preview): cross-tenant sharing without copies
+Producers can share a whole Lakehouse, Warehouse or Mirrored item with recipients in other Fabric tenants, with no data copied. They can attach Markdown files describing definitions and usage, and they control acceptance review, revocation and expiry. Recipients get a read-only mirrored item built on shortcuts. Spark notebooks, semantic models and data agents need an intermediate Lakehouse.
+**Why it matters:** It replaces export pipelines for partner or customer data sharing, though the preview limits on semantic models and Spark add an extra step.
+●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Share-data-and-context-across-organizations-with-IQ-Share/ba-p/5378764)
+
+### Admin connection APIs and data connection policies (preview)
+Tenant admins can list all tenant connections, including ones they do not own, and manage Owner assignments, for example when an owner leaves. Policies in the admin portal add an authentication allowlist and a Microsoft Entra tenant allowlist for cloud connections, enforced on existing connections too. Granting Owner does not transfer OAuth credentials, and enabling an allowlist can break existing workflows.
+**Why it matters:** It gives a tenant-wide connection inventory and enforceable authentication rules, but needs a review of affected connections before you switch it on.
+●●●●○ · [Microsoft Fabric Blog](https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Govern-Fabric-connections-with-admin-APIs-and-data-connection/ba-p/5383656)
 
 ## BI: market
-### DuckDB 2.0.0 LTS, with a built-in DuckDB adapter in dbt v2
-DuckDB 2.0.0 is a long-term-support release (supported until at least October 2027). It adds a client-server mode (Quack protocol), asynchronous I/O for Parquet, CSV and native reads, fuller VARIANT support, a new default PEG-based SQL parser and C API v2. It also contains breaking changes that need migration. dbt v2 ships a built-in DuckDB adapter, so a profile change lets you run dbt builds locally and offline.
-**Why it matters:** An LTS DuckDB is a safer base for local and semi-structured work next to Fabric, and a free local dbt target helps development, but check the parser and breaking changes before upgrading.
-●●●○○ · [DuckDB](https://duckdb.org/2026/10/21/announcing-duckdb-200.html) · [dbt Labs](https://www.getdbt.com/blog/dbt-duckdb-warehouse-free-data-transformation) · covered by 2 sources
+### Snowflake's agent announcements: CoWork, CoCo, Business Ontology
+Snowflake published several posts the same day. CoWork gets Profiles that route questions to the right agent, plus Dashboards (public preview) and scheduled Automations. CoCo gets long-running Cloud Agents and automations, with the Cortex Agent SDK stated as GA. CoCo for Excel and Google Sheets is in public preview. Business Ontology is a governance layer for business concepts and metrics that serves only approved definitions to agents, and it is announced as public preview "soon". All of it is vendor-written, and the performance figures are internal tests.
+**Why it matters:** It shows where a competing platform is taking governed, agent-driven BI and shared business definitions, which is the bar Fabric and Power BI will be measured against.
+●●●○○ · [Snowflake: CoWork](https://www.snowflake.com/content/snowflake-site/global/en/blog/snowflake-cowork-profiles-automations-dashboards) · [Snowflake: Business Ontology](https://www.snowflake.com/content/snowflake-site/global/en/blog/business-ontology-context) · [Snowflake: CoCo](https://www.snowflake.com/content/snowflake-site/global/en/blog/snowflake-coco-cloud-agents-automations)
+
+### Apache Spark 4.3 adds stateful Real-Time Mode
+Spark 4.3, available in Databricks Runtime 19, extends Structured Streaming's Real-Time Mode to stateful operations: aggregations, deduplication and transformWithState. Databricks reports sub-150 ms P99 latency on three tested workloads, framed as measurements rather than a guarantee. Spark also moves to quarterly feature releases.
+**Why it matters:** Millisecond-scale stateful streaming within familiar APIs could remove a separate streaming engine in some designs, which is relevant when comparing options against Fabric's real-time stack.
+●●●○○ · [Databricks Blog](https://www.databricks.com/blog/introducing-apache-spark-43-now-available-databricks-runtime-19)
 
 ## Research corner
-### Analysts adopted an AI agent's hidden lean on 86% of judgment calls
-**What:** Anthropic ran a randomized trial with 50 professional analysts doing a causal-inference analysis with Claude Code. The agent was secretly set to favor one option on each of four analytical choices. **Result:** Analysts followed the lean 86% of the time, against about 50% by chance. 77% used the agent's arguments, yet only 15% credited the agent. **Timescale and solidity:** The finding applies now to any agent-assisted analysis. It is one company's study. The leans were deliberately strengthened, so real-world effects may be smaller, and the no-agent comparison group was small and less experienced.
-**Why it matters:** Review of agent-run analyses has to cover the analytical choices, not just the code and outputs.
-●●●●○ · [Anthropic Research](https://www.anthropic.com/research/agents-judgment-calls)
+### Can LLMs read, and even edit, neural network weights?
+A paper by Takehi, Teoh, Zhang and Khattab reports that frontier LLMs can infer what a small reinforcement-learning game policy was trained to do by reading its raw weights as text, with no tools. Simon Willison tried it informally on Qwen 3.8 27B running locally. It identified three of four games, was vague on Pac-Man and failed Freeway, and runs took 46 minutes to over an hour. Related reports say LLMs can write or edit small networks' weights directly. Hugging Face reproduced one such result, but critics cite missing baselines and possible overfitting, and a spaCy author called the paper misleading for conflating this with tool-assisted editing. On timescale this is long term, and the evidence is early and contested.
+**Why it matters:** It hints at models inspecting or patching other models, but nothing here is usable in Fabric or LLM pipelines today.
+●●○○○ · [Simon Willison](https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights) · [Latent Space](https://latent.space/p/ainews-behind-latent-space-kill-my-saas-jev-ai-in-2026-aiei-shanghai) · covered by 2 sources
 
-### LLM judges flip verdicts on small prompt changes
-**What:** Ai2 tested six LLM judges (GPT-5.x and Claude models) on whether a research idea is novel, using ICLR 2026 peer reviews as labels and comparing against LLM-generated ideas. **Result:** Verdicts changed a lot with prompt, formatting or sampling. A simpler prompt dropped one judge's accuracy on AI-generated pairs from 93.5% to 40.9%. **Timescale and solidity:** The caution applies now to any LLM-as-judge eval. The generated-idea labels are weak assumptions, so strength is moderate, though the instability result is hard to ignore.
-**Why it matters:** Validate judge prompts on the kind of outputs they will actually score before trusting your eval numbers.
-●●●○○ · [Hugging Face Blog](https://huggingface.co/blog/allenai/novelty-bench)
+### StateBench: how well do models track state over long documents?
+The Allen AI team built a benchmark of increasing difficulty, from simple assignments up to swaps that reassign variables by reference. Small models trained from scratch showed that recurrent and hybrid architectures (Gated DeltaNet variants) generalize to much longer sequences than transformers on the harder levels. Four frontier models did well on easy levels, but on the longest general finite problems accuracy fell to 13% or lower. This is one lab's tech report with no independent replication yet. The architecture findings are a long-term signal, while the frontier-model result is relevant now.
+**Why it matters:** If a pipeline relies on an LLM following chained updates across long inputs, test it at length instead of assuming reliability.
+●●●○○ · [Hugging Face Blog](https://huggingface.co/blog/allenai/statebench)
 
 ## BI practice
-### How Data Culture got an analytics agent from 0% to 94.7% accuracy
-Opeyemi Fabiyi describes measuring an AI analytics agent before stakeholders rely on it. The method is golden questions, comparing query results rather than SQL text, and deterministic checks plus an LLM judge for the rest. On one e-commerce deployment, accuracy rose from 0% on raw tables to 94.7% as modeled dbt tables, column descriptions, business rules and verified queries were added, with the model held constant. It is a small number of client deployments, but the pipeline is open-sourced.
-**Why it matters:** It is a measured case that the semantic and context layer, not the model, drove accuracy, and the evaluation approach carries over to Power BI semantic models.
-●●●○○ · [dbt Labs](https://www.getdbt.com/blog/data-culture-ai-analytics-agent-trust-context)
+### What a year of building ADBC drivers taught Columnar
+Matt Topol, co-founder of Columnar, described a year of production ADBC (Arrow Database Connectivity) driver work. The pain points were inconsistent type systems across databases: numeric precision limits, string and null handling, timestamp time zones, and differing Spark backend protocols. His advice is to pin driver versions and test schemas early. Spec gaps are due to be addressed in an upcoming revision.
+**Why it matters:** Power BI is among the tools that have adopted ADBC, so these type-mapping divergences are the kind of surprises to check in a connector path.
+●●●○○ · [dbt Labs Blog](https://www.getdbt.com/blog/columnar-adbc-drivers-zero-copy-lessons)
 
-### Bolt's 14 written rules for a growing dbt project
-Silja Märdla of Bolt explained at dbt Summit 2026 how inconsistent staging and diverging answers appeared once the team passed 20 people. The rules fix the shapes of exposed tables and intermediate models, define each metric once against its source fact table, forbid shared model ownership, and enforce one-directional dependencies between vertical and horizontal teams. Non-additive metrics such as distinct counts live in separate marts. Bolt reports about six months without major issues.
-**Why it matters:** The single-definition metric rule and one-way dependencies between domain projects translate directly to semantic model and workspace design in Fabric.
-●●●○○ · [dbt Labs](https://www.getdbt.com/blog/dbt-project-standards-medallion-architecture)
+### dbt Charts and the case for dashboards as reviewable code
+Dave Fowler, creator of dbt Charts (open source, Apache 2.0, in beta), told Tristan Handy that AI-written dashboards need a readable, reviewable spec rather than generated JavaScript or Python. He also argues that BI tools' weak handling of relational data is a main reason teams still build dimensional models, and that AI may weaken that need. The piece is partly promotional and opinion-driven.
+**Why it matters:** It poses a concrete question for an LLM-assisted BI team: should dashboards be specified as reviewable code that agents write, and is the pre-joined layer still necessary?
+●●●○○ · [Analytics Engineering Roundup](https://roundup.getdbt.com/p/dbt-charts-the-markdown-of-dashboards)
 
 ---
 
 ## Under the hood
 
-288 items triaged this week, 96 kept (+3 BI practice reads in the pool), 188 dropped.
+167 items triaged this week, 58 kept (+2 BI practice reads in the pool), 108 dropped.
 
-Top drop reasons: marketing or case study (101), low significance (25), off-topic (19), minor feature (11), funding or business news (8), tutorial or listicle (7).
-
-
-<details><summary>Borderline drops (significance ≥ 3 but excluded): check these to calibrate the filter</summary>
-
-- [How LangChain grew self-serve analytics questions 40x by giving its AI agent layered context](https://www.getdbt.com/blog/langchain-self-serve-analytics-ai-agent-context) · dbt Labs Blog · sig 3 · marketing or case study: Customer case study from a dbt Labs blog recap of a dbt Summit talk, with product promotion for dbt Wizard CLI.
-- [From Spreadsheets to DuckLake: A Data Engineer's Road to DuckDB](https://duckdb.org/2026/10/29/from-spreadsheets-to-ducklake.html) · DuckDB · sig 3 · marketing or case study: Vendor-hosted personal career story promoting DuckDB and DuckLake; the 2.0 alpha features it mentions (async I/O, dynamic ATTACH) are only reported as one practitioner's experience.
-
-</details>
+Top drop reasons: marketing or case study (36), low significance (35), off-topic (16), tutorial or listicle (5), funding or business news (4), event or webinar (3).
