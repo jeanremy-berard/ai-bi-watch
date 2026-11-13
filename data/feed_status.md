@@ -1,6 +1,6 @@
 # Feed status
 
-Checked 2026-11-12 12:36 UTC. 33/33 sources reachable.
+Checked 2026-11-13 12:08 UTC. 33/33 sources reachable.
 
 | | Source | Status | Entries | Newest entry |
 |---|---|---|---|---|
@@ -10,30 +10,30 @@ Checked 2026-11-12 12:36 UTC. 33/33 sources reachable.
 | ✅ | Anthropic Research | ok | 198 | 2026-11-09 |
 | ✅ | Azure Blog (AI only) | ok | 10 | 2026-11-06 |
 | ✅ | Chris Webb's BI Blog | ok | 10 | 2026-11-08 |
-| ✅ | Claude Blog | ok | 314 | 2026-11-10 |
-| ✅ | Databricks Blog | ok | 10 | 2026-11-11 |
+| ✅ | Claude Blog | ok | 320 | 2026-11-12 |
+| ✅ | Databricks Blog | ok | 10 | 2026-11-12 |
 | ✅ | DuckDB | ok | 10 | 2026-11-12 |
-| ✅ | GitHub Blog (AI & ML) | ok | 10 | 2026-11-06 |
-| ✅ | Google AI (The Keyword) | ok | 20 | 2026-11-11 |
-| ✅ | Google Cloud (Data Analytics) | ok | 20 | 2026-11-10 |
-| ✅ | Google DeepMind | ok | 100 | 2026-11-11 |
+| ✅ | GitHub Blog (AI & ML) | ok | 10 | 2026-11-12 |
+| ✅ | Google AI (The Keyword) | ok | 20 | 2026-11-12 |
+| ✅ | Google Cloud (Data Analytics) | ok | 20 | 2026-11-12 |
+| ✅ | Google DeepMind | ok | 100 | 2026-11-12 |
 | ✅ | Google Research | ok | 100 | 2026-11-11 |
-| ✅ | Hacker News (front page, 250+ points) | ok | 15 | 2026-11-12 |
-| ✅ | Hugging Face Blog | ok | 904 | 2026-11-11 |
-| ✅ | Hugging Face Daily Papers | ok | 50 | 2026-11-09 |
+| ✅ | Hacker News (front page, 250+ points) | ok | 13 | 2026-11-13 |
+| ✅ | Hugging Face Blog | ok | 906 | 2026-11-12 |
+| ✅ | Hugging Face Daily Papers | ok | 50 | 2026-11-10 |
 | ✅ | Interconnects (Nathan Lambert) | ok | 20 | 2026-11-04 |
-| ✅ | Latent Space | ok | 20 | 2026-11-12 |
+| ✅ | Latent Space | ok | 20 | 2026-11-13 |
 | ⚠️ stale | Lilian Weng | ok | 53 | 2026-07-04 |
 | ✅ | Meta AI | ok | 88 | 2026-07-27 |
-| ✅ | Microsoft Fabric Blog | ok | 20 | 2026-11-11 |
+| ✅ | Microsoft Fabric Blog | ok | 20 | 2026-11-13 |
 | ✅ | Mistral AI | ok | 94 | 2026-11-05 |
-| ✅ | OpenAI Developer Blog | ok | 34 | 2026-11-10 |
-| ✅ | OpenAI News | ok | 1383 | 2026-11-12 |
+| ✅ | OpenAI Developer Blog | ok | 35 | 2026-11-12 |
+| ✅ | OpenAI News | ok | 1385 | 2026-11-12 |
 | ✅ | Power BI Blog | ok | 20 | 2026-11-09 |
 | ✅ | SQLBI | ok | 30 | 2026-11-04 |
 | ✅ | Sebastian Raschka (Ahead of AI) | ok | 20 | 2026-10-24 |
 | ✅ | Simon Willison | ok | 15 | 2026-11-09 |
-| ✅ | Snowflake Blog | ok | 20 | 2026-11-11 |
-| ✅ | Tabular Editor Blog | ok | 10 | 2026-11-10 |
+| ✅ | Snowflake Blog | ok | 20 | 2026-11-12 |
+| ✅ | Tabular Editor Blog | ok | 10 | 2026-11-12 |
 | ✅ | dbt Developer Blog | ok | 20 | 2026-10-30 |
 | ✅ | dbt Labs Blog | ok | 25 | 2026-11-11 |
