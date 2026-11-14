@@ -1,6 +1,6 @@
 # Feed status
 
-Checked 2026-11-14 01:03 UTC. 33/33 sources reachable.
+Checked 2026-11-14 11:25 UTC. 33/33 sources reachable.
 
 | | Source | Status | Entries | Newest entry |
 |---|---|---|---|---|
@@ -18,11 +18,11 @@ Checked 2026-11-14 01:03 UTC. 33/33 sources reachable.
 | ✅ | Google Cloud (Data Analytics) | ok | 20 | 2026-11-13 |
 | ✅ | Google DeepMind | ok | 100 | 2026-11-12 |
 | ✅ | Google Research | ok | 100 | 2026-11-13 |
-| ✅ | Hacker News (front page, 250+ points) | ok | 6 | 2026-11-13 |
+| ✅ | Hacker News (front page, 250+ points) | ok | 8 | 2026-11-14 |
 | ✅ | Hugging Face Blog | ok | 907 | 2026-11-13 |
 | ✅ | Hugging Face Daily Papers | ok | 50 | 2026-11-10 |
 | ✅ | Interconnects (Nathan Lambert) | ok | 20 | 2026-11-04 |
-| ✅ | Latent Space | ok | 20 | 2026-11-13 |
+| ✅ | Latent Space | ok | 20 | 2026-11-14 |
 | ⚠️ stale | Lilian Weng | ok | 53 | 2026-07-04 |
 | ✅ | Meta AI | ok | 88 | 2026-07-27 |
 | ✅ | Microsoft Fabric Blog | ok | 20 | 2026-11-13 |
